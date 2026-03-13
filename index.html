@@ -3,315 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberHub | Perícia & Cibersegurança</title>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@300;400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <title>CyberHub | Forense Digital & CyberSec</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* --- Variáveis de Cores e Efeitos (Estilo Adaptado) --- */
         :root {
-            --bg-main: #050505;
-            --bg-secondary: #0d0d12;
-            --neon-cyan: #00f0ff;
-            --neon-purple: #bd00ff;
-            --text-main: #f0f0f0;
-            --text-muted: #a0a0b0;
-            --glass-bg: rgba(13, 13, 18, 0.7);
-            --glass-border: rgba(0, 240, 255, 0.2);
+            --primary: #6366F1;        /* Azul/Roxo do original */
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --cyber-cyan: #00E5FF;     /* Toque Cyberpunk */
+            --cyber-cyan-glow: rgba(0, 229, 255, 0.5);
+            --accent: #bd00ff;         /* Roxo Neon */
+            
+            --bg-dark: #030305;        
+            --bg-card: rgba(15, 15, 20, 0.6); 
+            --border-glass: rgba(255, 255, 255, 0.08);
+            
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --radius: 20px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
             scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-main);
+            background-color: var(--bg-dark);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
+            font-family: var(--font-main);
             line-height: 1.6;
             overflow-x: hidden;
-            background-image: radial-gradient(circle at top right, rgba(189, 0, 255, 0.1), transparent 40%),
-                              radial-gradient(circle at bottom left, rgba(0, 240, 255, 0.1), transparent 40%);
         }
 
-        h1, h2, h3 {
-            font-family: 'Rajdhani', sans-serif;
-            text-transform: uppercase;
+        /* --- Fundo Animado (Blobs Neons) --- */
+        .background-glow { 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            z-index: -1; 
+            overflow: hidden; 
+            pointer-events: none; 
         }
 
-        a {
-            color: var(--neon-cyan);
+        .blob { 
+            position: absolute; 
+            border-radius: 50%; 
+            filter: blur(120px); 
+            opacity: 0.25; 
+            animation: float 10s infinite alternate; 
+        }
+
+        .blob-1 { 
+            top: -10%; left: -10%; 
+            width: 500px; height: 500px; 
+            background: var(--cyber-cyan); 
+        }
+
+        .blob-2 { 
+            bottom: -10%; right: -10%; 
+            width: 600px; height: 600px; 
+            background: var(--accent); 
+            animation-delay: -5s; 
+        }
+
+        .blob-3 { 
+            top: 40%; left: 40%; 
+            width: 400px; height: 400px; 
+            background: var(--primary); 
+            opacity: 0.15; 
+            animation-duration: 15s; 
+        }
+
+        @keyframes float { 
+            0% { transform: translate(0, 0); } 
+            100% { transform: translate(40px, 60px); } 
+        }
+
+        /* --- Utilitários --- */
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 24px; 
+        }
+
+        .text-gradient { 
+            background: linear-gradient(135deg, #FFF 0%, var(--cyber-cyan) 100%); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+
+        /* --- Header & Navegação (Efeito Vidro) --- */
+        header { 
+            position: fixed; 
+            top: 0; width: 100%; 
+            z-index: 1000; 
+            background: rgba(3, 3, 5, 0.7); 
+            backdrop-filter: blur(20px); 
+            border-bottom: 1px solid var(--border-glass); 
+        }
+
+        .nav-wrapper { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            height: 80px; 
+        }
+
+        .logo-text { 
+            font-size: 1.5rem; 
+            font-weight: 800; 
+            color: white; 
+            letter-spacing: -0.5px; 
             text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        a:hover {
-            color: var(--neon-purple);
-            text-shadow: 0 0 10px rgba(189, 0, 255, 0.5);
-        }
-
-        /* Navbar Efeito Vidro */
-        header {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 10px;
         }
 
-        .logo {
-            font-size: 2rem;
-            font-weight: 700;
-            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
+        .logo-text::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: var(--cyber-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--cyber-cyan-glow);
         }
 
-        nav ul {
-            display: flex;
-            gap: 30px;
-            list-style: none;
+        .nav-links { display: flex; gap: 10px; }
+
+        .nav-link { 
+            color: var(--text-muted); 
+            font-size: 0.95rem; 
+            padding: 8px 20px; 
+            border-radius: 30px; 
+            transition: all 0.3s ease; 
+            font-weight: 600; 
+            text-decoration: none; 
+            background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid transparent; 
         }
 
-        nav ul li a {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: var(--text-main);
+        .nav-link:hover { 
+            color: white; 
+            background: rgba(0, 229, 255, 0.1); 
+            border-color: rgba(0, 229, 255, 0.3); 
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.2); 
+            transform: translateY(-2px); 
         }
 
-        nav ul li a:hover {
-            color: var(--neon-cyan);
-        }
-
-        /* Container Principal */
-        .container {
-            max-width: 1200px;
-            margin: 120px auto 40px;
-            padding: 0 20px;
-        }
-
-        /* Hero Section */
-        .hero {
+        /* --- Hero Section --- */
+        .hero { 
+            padding: 180px 0 60px; 
+            text-align: center; 
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 60vh;
-            position: relative;
+            align-items: center;
         }
 
-        .hero h1 {
-            font-size: 4rem;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        .hero h1 { 
+            font-size: 4.5rem; 
+            line-height: 1.1; 
+            font-weight: 800; 
+            letter-spacing: -2px; 
+            margin-bottom: 24px; 
         }
 
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin-bottom: 40px;
+        .hero p { 
+            font-size: 1.2rem; 
+            color: var(--text-muted); 
+            max-width: 700px; 
+            margin: 0 auto 40px; 
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: transparent;
-            color: var(--neon-cyan);
-            border: 2px solid var(--neon-cyan);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
-            cursor: pointer;
+        /* --- Animação Marquee (Letreiro Cyber) --- */
+        .marquee-container { 
+            overflow: hidden; 
+            white-space: nowrap; 
+            position: relative; 
+            margin: 40px 0 80px; 
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); 
         }
 
-        .btn:hover {
-            background: var(--neon-cyan);
-            color: var(--bg-main);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+        .marquee-content { 
+            display: inline-flex; 
+            gap: 40px; 
+            animation: scroll 40s linear infinite; 
         }
 
-        /* Seções de Grid (Cards) */
+        .tag-item { 
+            padding: 12px 28px; 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-glass); 
+            border-radius: 100px; 
+            color: var(--cyber-cyan); 
+            font-family: var(--font-mono);
+            font-weight: 500; 
+            font-size: 0.95rem; 
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); 
+        }
+
+        @keyframes scroll { 
+            0% { transform: translateX(0); } 
+            100% { transform: translateX(-50%); } 
+        }
+
+        /* --- Projetos (Efeito Glass Box adaptado) --- */
         .section-title {
             font-size: 2.5rem;
-            margin: 60px 0 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            text-align: center;
+            margin-bottom: 50px;
+            font-weight: 800;
         }
 
-        .section-title::before {
-            content: '';
-            display: block;
-            width: 50px;
-            height: 4px;
-            background: var(--neon-purple);
+        .eco-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 30px; 
+            margin-bottom: 100px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: var(--bg-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 30px;
-            transition: all 0.4s ease;
+        .glass-card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border-glass); 
+            padding: 40px 30px; 
+            border-radius: var(--radius); 
+            transition: all 0.4s ease; 
+            backdrop-filter: blur(15px);
             position: relative;
             overflow: hidden;
-            z-index: 1;
         }
 
-        .card::before {
+        .glass-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            border-radius: 8px;
-            padding: 2px;
-            background: linear-gradient(45deg, var(--neon-cyan), transparent, var(--neon-purple));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyber-cyan), transparent);
             opacity: 0;
             transition: opacity 0.4s ease;
-            z-index: -1;
         }
 
-        .card:hover {
-            transform: translateY(-10px);
-            background: rgba(20, 20, 30, 0.8);
+        .glass-card:hover { 
+            border-color: rgba(0, 229, 255, 0.4); 
+            transform: translateY(-5px); 
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.1); 
         }
 
-        .card:hover::before {
+        .glass-card:hover::before {
             opacity: 1;
         }
 
-        .card h3 {
+        .glass-card h3 {
             font-size: 1.5rem;
+            color: white;
             margin-bottom: 15px;
-            color: #fff;
         }
 
-        .card p {
+        .glass-card p {
             color: var(--text-muted);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
+            font-size: 1rem;
+            margin-bottom: 25px;
         }
 
-        .tags {
+        .tech-tags {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
 
-        .tag {
-            font-family: 'Fira Code', monospace;
+        .tech-tags span {
+            font-family: var(--font-mono);
             font-size: 0.8rem;
-            padding: 4px 10px;
-            background: rgba(0, 240, 255, 0.1);
-            color: var(--neon-cyan);
-            border-radius: 4px;
-            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            border-radius: 6px;
+            color: var(--primary);
         }
 
         /* Footer */
         footer {
-            margin-top: 80px;
-            padding: 40px 20px;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 40px;
+            border-top: 1px solid var(--border-glass);
             color: var(--text-muted);
-            font-family: 'Rajdhani', sans-serif;
+            backdrop-filter: blur(10px);
+        }
+
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .nav-links { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <nav>
-            <div class="logo">CyberHub</div>
-            <ul>
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#ferramentas">Projetos</a></li>
-                <li><a href="#artigos">Artigos</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <div class="container">
-        <section id="inicio" class="hero">
-            <h1>Investigação Digital &<br>Desenvolvimento</h1>
-            <p>Atuando na interseção entre cibersegurança, perícia digital e engenharia de software. Construindo soluções modernas para análise forense e segurança da informação.</p>
-            <a href="#ferramentas" class="btn">Explorar Sistemas</a>
-        </section>
-
-        <h2 class="section-title">Projetos & Ferramentas</h2>
-        <section id="ferramentas" class="grid">
-            <div class="card">
-                <h3>Coleta de Evidências</h3>
-                <p>Software focado na extração, preservação e hash de artefatos digitais, garantindo a cadeia de custódia desde a apreensão até a análise técnica.</p>
-                <div class="tags">
-                    <span class="tag">Python</span>
-                    <span class="tag">Forense Digital</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>Aplicações Mobile Seguras</h3>
-                <p>Desenvolvimento e auditoria de aplicativos móveis modernos, com foco em arquitetura segura, proteção de dados locais e comunicação criptografada.</p>
-                <div class="tags">
-                    <span class="tag">Flutter</span>
-                    <span class="tag">Dart</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3>Análise de Ameaças</h3>
-                <p>Scripts de automação para monitoramento de tráfego, identificação de anomalias em rede e triagem inicial de incidentes de segurança cibernética.</p>
-                <div class="tags">
-                    <span class="tag">CyberSec</span>
-                    <span class="tag">Automação</span>
-                </div>
-            </div>
-        </section>
-
-        <h2 class="section-title">Publicações Recentes</h2>
-        <section id="artigos" class="grid">
-            <div class="card">
-                <h3>Os Desafios da Perícia em Nuvem</h3>
-                <p>Uma visão técnica sobre como os peritos digitais estão lidando com a extração de dados em ambientes AWS e Azure.</p>
-                <a href="#">Ler artigo completo &rarr;</a>
-            </div>
-
-            <div class="card">
-                <h3>Arquitetura Limpa com Flutter</h3>
-                <p>Como estruturar projetos robustos e escaláveis utilizando as melhores práticas de desenvolvimento mobile.</p>
-                <a href="#">Ler artigo completo &rarr;</a>
-            </div>
-        </section>
+    <div class="background-glow">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
     </div>
 
+    <header>
+        <div class="container nav-wrapper">
+            <a href="#" class="logo-text">CyberHub</a>
+            <nav class="nav-links">
+                <a href="#inicio" class="nav-link">Início</a>
+                <a href="#projetos" class="nav-link">Sistemas</a>
+                <a href="#artigos" class="nav-link">Arquivos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section id="inicio" class="hero">
+            <h1><span class="text-gradient">Investigação Digital</span><br>& Cibersegurança</h1>
+            <p>Laboratório de desenvolvimento e pesquisa. Construindo soluções automatizadas para análise forense, inteligência de ameaças e preservação de evidências eletrônicas.</p>
+        </section>
+
+        <div class="marquee-container">
+            <div class="marquee-content">
+                <div class="tag-item">>_ Python Scripts</div>
+                <div class="tag-item">Forense Mobile</div>
+                <div class="tag-item">Flutter Apps</div>
+                <div class="tag-item">Cadeia de Custódia</div>
+                <div class="tag-item">Dart</div>
+                <div class="tag-item">OSINT</div>
+                <div class="tag-item">>_ Python Scripts</div>
+                <div class="tag-item">Forense Mobile</div>
+                <div class="tag-item">Flutter Apps</div>
+                <div class="tag-item">Cadeia de Custódia</div>
+                <div class="tag-item">Dart</div>
+                <div class="tag-item">OSINT</div>
+            </div>
+        </div>
+
+        <h2 id="projetos" class="section-title">Sistemas Operacionais</h2>
+        <div class="eco-grid">
+            <div class="glass-card">
+                <h3>Coleta de Evidências</h3>
+                <p>Plataforma automatizada para extração e preservação de vestígios digitais, assegurando a integridade e geração de hash para a cadeia de custódia em investigações.</p>
+                <div class="tech-tags">
+                    <span>Python</span>
+                    <span>Forense</span>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <h3>Aplicações Seguras</h3>
+                <p>Desenvolvimento focado na construção de arquiteturas limpas e seguras para ambientes móveis, garantindo a proteção de dados sensíveis na ponta.</p>
+                <div class="tech-tags">
+                    <span>Flutter</span>
+                    <span>Dart</span>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <h3>Análise e Triagem</h3>
+                <p>Scripts customizados para varredura de sistemas, identificação de anomalias em rede e suporte a operações de inteligência cibernética.</p>
+                <div class="tech-tags">
+                    <span>CyberSec</span>
+                    <span>Automação</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
     <footer>
-        <p>CyberHub &copy; <script>document.write(new Date().getFullYear())</script> - Sistemas Operacionais. Todos os direitos reservados.</p>
+        <p>CyberHub &copy; <script>document.write(new Date().getFullYear())</script> - Operação Segura.</p>
     </footer>
 
 </body>
