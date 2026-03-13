@@ -3,185 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CyberSec | Hub de Investigação Digital</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>CyberHub | Perícia & Cibersegurança</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@300;400;600&family=Fira+Code&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0a0a0c;
-            --cyber-green: #00ff41;
-            --cyber-green-dim: #008f11;
-            --cyber-blue: #0df;
-            --text-light: #e0e0e0;
-            --text-muted: #888;
-            --border-glow: 0 0 10px var(--cyber-green), inset 0 0 10px var(--cyber-green-dim);
+            --bg-main: #050505;
+            --bg-secondary: #0d0d12;
+            --neon-cyan: #00f0ff;
+            --neon-purple: #bd00ff;
+            --text-main: #f0f0f0;
+            --text-muted: #a0a0b0;
+            --glass-bg: rgba(13, 13, 18, 0.7);
+            --glass-border: rgba(0, 240, 255, 0.2);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Fira Code', monospace;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            background-image: 
-                linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at top right, rgba(189, 0, 255, 0.1), transparent 40%),
+                              radial-gradient(circle at bottom left, rgba(0, 240, 255, 0.1), transparent 40%);
         }
 
-        /* Tipografia e Efeitos */
         h1, h2, h3 {
-            color: var(--cyber-green);
+            font-family: 'Rajdhani', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .glitch-text {
-            position: relative;
-            display: inline-block;
-            text-shadow: 2px 2px var(--cyber-green-dim), -2px -2px var(--cyber-blue);
         }
 
         a {
-            color: var(--cyber-blue);
+            color: var(--neon-cyan);
             text-decoration: none;
-            transition: 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         a:hover {
-            color: var(--cyber-green);
-            text-shadow: 0 0 8px var(--cyber-green);
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px rgba(189, 0, 255, 0.5);
         }
 
-        /* Layout Principal */
+        /* Navbar Efeito Vidro */
         header {
-            border-bottom: 1px solid var(--cyber-green);
-            padding: 20px 0;
-            box-shadow: 0 4px 15px rgba(0, 255, 65, 0.1);
-            background: rgba(10, 10, 12, 0.9);
-            position: sticky;
+            position: fixed;
+            width: 100%;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
         }
 
         nav {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
         }
 
         nav ul {
-            list-style: none;
             display: flex;
-            gap: 20px;
+            gap: 30px;
+            list-style: none;
         }
 
+        nav ul li a {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-main);
+        }
+
+        nav ul li a:hover {
+            color: var(--neon-cyan);
+        }
+
+        /* Container Principal */
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
+            max-width: 1200px;
+            margin: 120px auto 40px;
             padding: 0 20px;
         }
 
-        /* Seção Hero */
+        /* Hero Section */
         .hero {
-            padding: 60px 20px;
-            border: 1px solid var(--cyber-green-dim);
-            box-shadow: var(--border-glow);
-            background: rgba(0, 255, 65, 0.02);
-            margin-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 60vh;
             position: relative;
         }
 
-        .hero::before {
-            content: ">_";
-            position: absolute;
-            top: -15px;
-            left: 20px;
-            background: var(--bg-dark);
-            padding: 0 10px;
-            color: var(--cyber-green);
-            font-weight: bold;
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
         }
 
         .hero p {
-            margin-top: 15px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
+            max-width: 600px;
+            margin-bottom: 40px;
         }
 
-        /* Grid de Conteúdo/Projetos */
-        .grid-section {
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 2px solid var(--neon-cyan);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-main);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+        }
+
+        /* Seções de Grid (Cards) */
+        .section-title {
+            font-size: 2.5rem;
+            margin: 60px 0 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 4px;
+            background: var(--neon-purple);
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
-            margin-bottom: 50px;
         }
 
         .card {
-            border: 1px solid #333;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s ease;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 30px;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            z-index: 1;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 8px;
+            padding: 2px;
+            background: linear-gradient(45deg, var(--neon-cyan), transparent, var(--neon-purple));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
         }
 
         .card:hover {
-            border-color: var(--cyber-blue);
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 221, 255, 0.2);
+            transform: translateY(-10px);
+            background: rgba(20, 20, 30, 0.8);
         }
 
-        .card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: var(--cyber-blue);
-            transition: 0.5s;
-        }
-
-        .card:hover::after {
-            left: 0;
+        .card:hover::before {
+            opacity: 1;
         }
 
         .card h3 {
+            font-size: 1.5rem;
             margin-bottom: 15px;
-            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .tag {
-            display: inline-block;
-            padding: 4px 8px;
+            font-family: 'Fira Code', monospace;
             font-size: 0.8rem;
-            border: 1px solid var(--cyber-green-dim);
-            color: var(--cyber-green);
-            margin-right: 5px;
-            margin-top: 15px;
-            border-radius: 3px;
+            padding: 4px 10px;
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--neon-cyan);
+            border-radius: 4px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
         }
 
         /* Footer */
         footer {
+            margin-top: 80px;
+            padding: 40px 20px;
             text-align: center;
-            padding: 30px;
-            border-top: 1px solid #333;
+            border-top: 1px solid rgba(255,255,255,0.05);
             color: var(--text-muted);
-            margin-top: 50px;
-        }
-
-        .terminal-prompt::before {
-            content: "root@cyber-hub:~# ";
-            color: var(--cyber-blue);
+            font-family: 'Rajdhani', sans-serif;
         }
     </style>
 </head>
@@ -189,58 +248,70 @@
 
     <header>
         <nav>
-            <h2 class="glitch-text">SYS_ADMIN</h2>
+            <div class="logo">CyberHub</div>
             <ul>
-                <li><a href="#inicio">[ Início ]</a></li>
-                <li><a href="#artigos">[ Artigos ]</a></li>
-                <li><a href="#ferramentas">[ Ferramentas ]</a></li>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#ferramentas">Projetos</a></li>
+                <li><a href="#artigos">Artigos</a></li>
             </ul>
         </nav>
     </header>
 
     <div class="container">
         <section id="inicio" class="hero">
-            <h1 class="terminal-prompt">Perícia Digital & Cibersegurança</h1>
-            <p>Bem-vindo ao repositório central. Explorando a intersecção entre forense digital, desenvolvimento de software e análise de ameaças. Sistema online e operacional.</p>
+            <h1>Investigação Digital &<br>Desenvolvimento</h1>
+            <p>Atuando na interseção entre cibersegurança, perícia digital e engenharia de software. Construindo soluções modernas para análise forense e segurança da informação.</p>
+            <a href="#ferramentas" class="btn">Explorar Sistemas</a>
         </section>
 
-        <h2 style="margin-bottom: 20px;">>> Repositório de Ferramentas</h2>
-        <section id="ferramentas" class="grid-section">
+        <h2 class="section-title">Projetos & Ferramentas</h2>
+        <section id="ferramentas" class="grid">
             <div class="card">
-                <h3>[ Software de Coleta de Evidências ]</h3>
-                <p>Plataforma autônoma para preservação, coleta e análise de vestígios digitais, focada na cadeia de custódia e eficiência em investigações complexas.</p>
-                <span class="tag">Python</span>
-                <span class="tag">Forense</span>
-                <span class="tag">Dev</span>
+                <h3>Coleta de Evidências</h3>
+                <p>Software focado na extração, preservação e hash de artefatos digitais, garantindo a cadeia de custódia desde a apreensão até a análise técnica.</p>
+                <div class="tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">Forense Digital</span>
+                </div>
             </div>
-            
+
             <div class="card">
-                <h3>[ Scripting & Automação ]</h3>
-                <p>Scripts customizados para varredura de vulnerabilidades, análise de logs e extração de dados em ambientes restritos.</p>
-                <span class="tag">Dart</span>
-                <span class="tag">Flutter</span>
-                <span class="tag">Cyber</span>
+                <h3>Aplicações Mobile Seguras</h3>
+                <p>Desenvolvimento e auditoria de aplicativos móveis modernos, com foco em arquitetura segura, proteção de dados locais e comunicação criptografada.</p>
+                <div class="tags">
+                    <span class="tag">Flutter</span>
+                    <span class="tag">Dart</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Análise de Ameaças</h3>
+                <p>Scripts de automação para monitoramento de tráfego, identificação de anomalias em rede e triagem inicial de incidentes de segurança cibernética.</p>
+                <div class="tags">
+                    <span class="tag">CyberSec</span>
+                    <span class="tag">Automação</span>
+                </div>
             </div>
         </section>
 
-        <h2 style="margin-bottom: 20px;">>> Últimos Artigos</h2>
-        <section id="artigos" class="grid-section">
+        <h2 class="section-title">Publicações Recentes</h2>
+        <section id="artigos" class="grid">
             <div class="card">
-                <h3>Análise de Malware Avançada</h3>
-                <p>Métodos práticos para engenharia reversa e isolamento de ameaças em ambientes de sandbox controlados.</p>
-                <a href="#">Ler arquivo.txt &rarr;</a>
+                <h3>Os Desafios da Perícia em Nuvem</h3>
+                <p>Uma visão técnica sobre como os peritos digitais estão lidando com a extração de dados em ambientes AWS e Azure.</p>
+                <a href="#">Ler artigo completo &rarr;</a>
             </div>
 
             <div class="card">
-                <h3>Fundamentos da Perícia Digital</h3>
-                <p>Os desafios da coleta de provas em dispositivos móveis e a importância da integridade criptográfica.</p>
-                <a href="#">Ler arquivo.txt &rarr;</a>
+                <h3>Arquitetura Limpa com Flutter</h3>
+                <p>Como estruturar projetos robustos e escaláveis utilizando as melhores práticas de desenvolvimento mobile.</p>
+                <a href="#">Ler artigo completo &rarr;</a>
             </div>
         </section>
     </div>
 
     <footer>
-        <p>Sistema inicializado. © <script>document.write(new Date().getFullYear())</script> - Operação segura.</p>
+        <p>CyberHub &copy; <script>document.write(new Date().getFullYear())</script> - Sistemas Operacionais. Todos os direitos reservados.</p>
     </footer>
 
 </body>
