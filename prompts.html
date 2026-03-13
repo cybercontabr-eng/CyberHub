@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberHub | Repositório de Prompts IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Variáveis (Mesmo Padrão do Principal) --- */
+        :root {
+            --primary: #6366F1;        
+            --cyber-cyan: #00E5FF;     
+            --accent: #bd00ff;         
+            
+            --bg-dark: #030305;        
+            --bg-card: rgba(15, 15, 20, 0.6); 
+            --border-glass: rgba(255, 255, 255, 0.08);
+            
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
+            
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --radius: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 40px 40px;
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Fundo Animado --- */
+        .background-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.2; animation: float 10s infinite alternate; }
+        .blob-1 { top: -10%; left: -10%; width: 500px; height: 500px; background: var(--cyber-cyan); }
+        .blob-2 { bottom: -10%; right: -10%; width: 600px; height: 600px; background: var(--accent); animation-delay: -5s; }
+
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(40px, 60px); } }
+
+        /* --- Utilitários --- */
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+        .text-gradient { 
+            background: linear-gradient(135deg, #FFF 0%, var(--accent) 100%); 
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+        }
+
+        /* --- Header --- */
+        header { 
+            position: fixed; top: 0; width: 100%; z-index: 1000; 
+            background: rgba(3, 3, 5, 0.7); backdrop-filter: blur(20px); 
+            border-bottom: 1px solid var(--border-glass); 
+        }
+        .nav-wrapper { display: flex; justify-content: space-between; align-items: center; height: 80px; }
+        .logo-text { font-size: 1.5rem; font-weight: 800; color: white; text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .logo-text::before { content: ''; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent); }
+        .nav-links { display: flex; gap: 10px; }
+        .nav-link { 
+            color: var(--text-muted); font-size: 0.95rem; padding: 8px 20px; border-radius: 30px; 
+            transition: all 0.3s ease; font-weight: 600; text-decoration: none; 
+            background: rgba(255, 255, 255, 0.02); border: 1px solid transparent; 
+        }
+        .nav-link:hover { color: white; background: rgba(189, 0, 255, 0.1); border-color: rgba(189, 0, 255, 0.3); }
+
+        /* --- Hero Section --- */
+        .hero { padding: 160px 0 60px; text-align: center; }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px; }
+        .hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+        /* --- Cards de Prompts --- */
+        .prompt-card { 
+            background: var(--bg-card); border: 1px solid var(--border-glass); 
+            padding: 30px; border-radius: var(--radius); margin-bottom: 40px;
+            backdrop-filter: blur(15px); transition: all 0.3s ease;
+        }
+        .prompt-card:hover { border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 10px 30px rgba(0, 229, 255, 0.05); }
+
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;}
+        .card-title h3 { font-size: 1.4rem; color: white; margin-bottom: 8px; }
+        .card-title p { color: var(--text-muted); font-size: 0.95rem; }
+        
+        .ai-badges { display: flex; gap: 8px; flex-wrap: wrap;}
+        .badge { 
+            font-size: 0.8rem; padding: 4px 12px; border-radius: 6px; font-weight: 600; 
+            background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); color: var(--text-main);
+        }
+        .badge.claude { color: #d97757; border-color: rgba(217, 119, 87, 0.3); }
+        .badge.chatgpt { color: #10a37f; border-color: rgba(16, 163, 127, 0.3); }
+        .badge.midjourney { color: #5865F2; border-color: rgba(88, 101, 242, 0.3); }
+
+        /* --- Bloco de Código / Prompt --- */
+        .prompt-box {
+            background: #000; border: 1px solid #222; border-radius: 12px;
+            padding: 20px; position: relative; margin-top: 20px;
+        }
+        .prompt-text {
+            font-family: var(--font-mono); color: var(--cyber-cyan); font-size: 0.95rem;
+            line-height: 1.5; white-space: pre-wrap; word-wrap: break-word;
+        }
+        
+        .copy-btn {
+            position: absolute; top: 15px; right: 15px; background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border-glass); color: white; padding: 6px 12px;
+            border-radius: 6px; cursor: pointer; font-family: var(--font-main);
+            font-size: 0.8rem; font-weight: 600; transition: 0.3s;
+        }
+        .copy-btn:hover { background: var(--cyber-cyan); color: #000; border-color: var(--cyber-cyan); }
+
+        footer { text-align: center; padding: 40px; margin-top: 60px; border-top: 1px solid var(--border-glass); color: var(--text-muted); }
+
+        @media(max-width: 768px) { .hero h1 { font-size: 2.5rem; } .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+
+    <div class="background-glow">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <header>
+        <div class="container nav-wrapper">
+            <a href="index.html" class="logo-text">CyberHub</a>
+            <nav class="nav-links">
+                <a href="index.html" class="nav-link">&larr; Voltar ao Início</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Engenharia de <span class="text-gradient">Prompts</span></h1>
+            <p>Repositório de instruções otimizadas para Inteligências Artificiais. Estruturas validadas para redação jurídica, desenvolvimento de software e geração de imagens.</p>
+        </section>
+
+        <div class="prompt-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3>Atuação no Ministério Público (Manifestação/Parecer)</h3>
+                    <p>Ideal para análise de autos, extração de fatos e elaboração de esboços de peças com tom técnico e impessoal.</p>
+                </div>
+                <div class="ai-badges">
+                    <span class="badge claude">Claude 3.5</span>
+                    <span class="badge chatgpt">ChatGPT (GPT-4)</span>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copiar</button>
+                <div class="prompt-text">Atue como um Assessor Jurídico sênior do Ministério Público estadual. 
+Sua tarefa é analisar os fatos que fornecerei abaixo e redigir um esboço de [INSERIR TIPO DE PEÇA: manifestação / parecer / denúncia].
+
+Diretrizes obrigatórias:
+1. Estruture o texto em: Relatório (síntese dos fatos), Fundamentação Jurídica (enquadramento legal e jurisprudencial) e Conclusão/Pedido.
+2. Utilize linguagem estritamente formal, culta, objetiva e impessoal.
+3. Não invente fatos, leis ou jurisprudências (evite alucinações). Baseie-se apenas no Código Penal, Processo Penal e na doutrina majoritária brasileira.
+4. Caso falte alguma informação crucial nos fatos fornecidos para o enquadramento, me faça perguntas antes de redigir o texto final.
+
+Fatos do caso:
+[COLE O RESUMO DOS FATOS AQUI]</div>
+            </div>
+        </div>
+
+        <div class="prompt-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3>Script de Extração Forense (Python)</h3>
+                    <p>Geração de código seguro para automação de coleta de evidências e cálculo de Hashes para cadeia de custódia.</p>
+                </div>
+                <div class="ai-badges">
+                    <span class="badge claude">Claude 3.5 Sonnet</span>
+                    <span class="badge">Gemini Advanced</span>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copiar</button>
+                <div class="prompt-text">Atue como um Perito Forense Digital e Engenheiro de Software Sênior.
+Preciso que você escreva um script em Python focado em [INSERIR TAREFA: ex: extração de metadados EXIF de imagens / varredura de arquivos].
+
+Requisitos de Arquitetura e Segurança:
+1. O código deve ser modular, limpo e devidamente comentado.
+2. Implemente tratamento de exceções (try/except) robusto para não interromper a varredura caso encontre arquivos corrompidos ou sem permissão de leitura.
+3. É obrigatório gerar o Hash (SHA-256) do arquivo original antes e depois de qualquer manipulação para garantir a integridade da cadeia de custódia.
+4. A saída (output) deve ser exportada em um formato estruturado (CSV ou JSON) contendo: Nome do Arquivo, Caminho Absoluto, Data de Modificação, e Hash SHA-256.
+
+Apresente apenas o código pronto para uso e, logo abaixo, instruções breves de como executá-lo no terminal.</div>
+            </div>
+        </div>
+
+        <div class="prompt-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3>Geração de Imagens: Setup Cyber/Gamer</h3>
+                    <p>Estrutura de prompt para gerar imagens altamente realistas de equipamentos, cenários cibernéticos ou carros modificados.</p>
+                </div>
+                <div class="ai-badges">
+                    <span class="badge midjourney">Midjourney v6</span>
+                    <span class="badge">DALL-E 3</span>
+                </div>
+            </div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copiar</button>
+                <div class="prompt-text">A hyper-realistic close-up photography of a [INSERIR OBJETO: ex: black Fiat Punto 2014 dashboard / mechanical keyboard on a desk]. 
+Lighting: dark dramatic lighting, glowing cyan and purple neon accents illuminating the scene. 
+Environment: professional digital forensics laboratory in the background, slightly blurred (bokeh effect). 
+Camera settings: Shot on Sony A7R IV, 50mm f/1.8 lens, 8k resolution, highly detailed, photorealistic, cinematic composition --ar 16:9 --style raw --v 6.0</div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>CyberHub &copy; <script>document.write(new Date().getFullYear())</script> - Operação Segura.</p>
+    </footer>
+
+    <script>
+        function copyPrompt(button) {
+            // Encontra a div de texto que está logo após o botão clicado
+            const promptText = button.nextElementSibling.innerText;
+            
+            // Copia para a área de transferência
+            navigator.clipboard.writeText(promptText).then(() => {
+                const originalText = button.innerText;
+                button.innerText = 'Copiado!';
+                button.style.background = 'var(--cyber-cyan)';
+                button.style.color = '#000';
+                
+                // Volta ao normal após 2 segundos
+                setTimeout(() => {
+                    button.innerText = originalText;
+                    button.style.background = 'rgba(255,255,255,0.1)';
+                    button.style.color = 'white';
+                }, 2000);
+            }).catch(err => {
+                console.error('Falha ao copiar: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
