@@ -68,7 +68,7 @@
         .hero h1 { font-size: 4rem; line-height: 1.1; font-weight: 800; letter-spacing: -2px; margin-bottom: 24px; }
         .hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 50px; }
 
-        /* --- Janela do Terminal Animada --- */
+        /* --- Janela do Terminal --- */
         .hero-visual { width: 100%; display: flex; justify-content: center; margin-bottom: 50px; }
         
         .terminal-window {
@@ -78,15 +78,15 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 30px rgba(0, 245, 255, 0.1);
             overflow: hidden;
             width: 100%;
-            max-width: 500px; /* Alinhado com a sua referência */
+            max-width: 500px;
             font-family: var(--font-mono);
-            animation: float-terminal 6s ease-in-out infinite; /* EFEITO DE FLUTUAR AQUI */
+            animation: float-terminal 6s ease-in-out infinite;
             position: relative;
             will-change: transform;
             text-align: left;
+            min-height: 340px; /* Mantém a altura fixa para não pular enquanto digita */
         }
 
-        /* Os Keyframes exatos que você mandou */
         @keyframes float-terminal {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -104,32 +104,44 @@
         .prompt { color: var(--kali-blue); font-weight: bold; }
         .command { color: var(--text-main); font-weight: 500; }
         
-        .loading-dots { display: flex; gap: 2px; margin: 4px 0; color: #a9b7c6; }
+        .loading-dots { display: none; gap: 2px; margin: 4px 0; color: #a9b7c6; }
         .dot { animation: pulse 1.5s infinite; }
         .dot:nth-child(2) { animation-delay: 0.2s; }
         .dot:nth-child(3) { animation-delay: 0.4s; }
         
         .terminal-output { margin: 8px 0; }
-        .output-line { color: #e8e8e8; margin: 2px 0; }
+        .output-line { color: #e8e8e8; margin: 2px 0; opacity: 0; transition: opacity 0.2s ease; }
         .output-line.warning { color: #f1fa8c; }
         .output-line.success { color: #50fa7b; }
         
         .cursor { display: inline-block; color: var(--text-main); animation: blink 1s step-end infinite; }
+        #final-prompt { display: none; }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
-        @keyframes fadeOut { from { opacity: 0.6; } to { opacity: 0; } }
 
-        /* Media Query que estava no seu código */
-        @media (max-width: 991px) and (min-width: 769px) {
-            .terminal-window { max-width: 550px; }
-        }
+        /* --- Marquee e Restante --- */
+        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; margin: 0 0 80px; mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent); }
+        .marquee-content { display: inline-flex; gap: 40px; animation: scroll 40s linear infinite; }
+        .tag-item { padding: 12px 28px; background: var(--bg-card); border: 1px solid var(--border-glass); border-radius: 100px; color: var(--cyber-cyan); font-family: var(--font-mono); font-weight: 500; font-size: 0.95rem; backdrop-filter: blur(5px); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; }
-            .terminal-title { display: none; }
-        }
+        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        .section-title { font-size: 2.5rem; text-align: center; margin-bottom: 50px; font-weight: 800; }
+        .eco-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 100px; }
+        .glass-card { background: var(--bg-card); border: 1px solid var(--border-glass); padding: 40px 30px; border-radius: var(--radius); transition: all 0.4s ease; backdrop-filter: blur(15px); position: relative; overflow: hidden; }
+        .glass-card:hover { border-color: rgba(0, 229, 255, 0.4); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0, 229, 255, 0.1); }
+        .glass-card h3 { font-size: 1.5rem; color: white; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
+        .glass-card p { color: var(--text-muted); font-size: 1rem; margin-bottom: 25px; }
+        .tech-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tech-tags span { font-family: var(--font-mono); font-size: 0.8rem; padding: 4px 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 6px; color: var(--primary); }
+
+        .award-badge { font-size: 0.75rem; font-family: var(--font-main); padding: 4px 10px; background: rgba(252, 211, 77, 0.1); border: 1px solid rgba(252, 211, 77, 0.3); color: var(--award-gold); border-radius: 12px; font-weight: 600; text-transform: uppercase; }
+
+        footer { text-align: center; padding: 40px; border-top: 1px solid var(--border-glass); color: var(--text-muted); }
+
+        @media (max-width: 991px) and (min-width: 769px) { .terminal-window { max-width: 550px; } }
+        @media (max-width: 768px) { .hero h1 { font-size: 2.5rem; } .nav-links { display: none; } .terminal-title { display: none; } }
     </style>
 </head>
 <body>
@@ -171,30 +183,112 @@
                         </div>
                         <div class="terminal-line">
                             <span class="prompt">└─$</span>
-                            <span class="command" style="border-right: none; opacity: 1; width: 100%; max-width: none; white-space: nowrap; overflow: visible;">python3 medi_extractor.py --target /dev/sda1</span>
+                            <span class="command" id="typewriter-text"></span><span id="typing-cursor" class="cursor">█</span>
                         </div>
-                        <div class="loading-dots">
+                        
+                        <div class="loading-dots" id="loading-dots">
                             <span class="dot">.</span><span class="dot">.</span><span class="dot">.</span>
                         </div>
-                        <div class="terminal-output">
-                            <div class="output-line" style="white-space: nowrap; overflow-x: auto; max-width: 100%; opacity: 1; transform: translateY(0px);">Starting Protocol MEDI v2.0 at 2026-03-13 14:00</div>
-                            <div class="output-line" style="white-space: nowrap; overflow-x: auto; max-width: 100%; opacity: 1; transform: translateY(0px);">Target drive mounted securely (Read-Only)</div>
-                            <div class="output-line" style="white-space: nowrap; overflow-x: auto; max-width: 100%; opacity: 1; transform: translateY(0px);">Calculating SHA-256 Hash for Chain of Custody</div>
-                            <div class="output-line warning" style="white-space: nowrap; overflow-x: auto; max-width: 100%; opacity: 1; transform: translateY(0px);">| hash-info: Original -> 8a2b9c37f1e5d4...</div>
-                            <div class="output-line warning" style="white-space: nowrap; overflow-x: auto; max-width: 100%; opacity: 1; transform: translateY(0px);">| hash-info: Computed -> 8a2b9c37f1e5d4...</div>
-                            <div class="output-line success" style="white-space: nowrap; overflow-x: auto; max-width: 100%; opacity: 1; transform: translateY(0px); position: relative;">Match Confirmed: Integrity validated<div style="position: absolute; right: 0px; top: 0px; width: 2px; height: 100%; background: var(--cyber-cyan); opacity: 0.6; animation: 1s ease-out 0.5s 1 normal forwards running fadeOut;"></div></div>
+                        
+                        <div class="terminal-output" id="terminal-output">
+                            <div class="output-line">Starting Protocol MEDI v2.0 at 2026-03-13 14:00</div>
+                            <div class="output-line">Target drive mounted securely (Read-Only)</div>
+                            <div class="output-line">Calculating SHA-256 Hash for Chain of Custody</div>
+                            <div class="output-line warning">| hash-info: Original -> 8a2b9c37f1e5d4...</div>
+                            <div class="output-line warning">| hash-info: Computed -> 8a2b9c37f1e5d4...</div>
+                            <div class="output-line success">Match Confirmed: Integrity validated</div>
                         </div>
-                        <div class="terminal-line">
-                            <span class="prompt">┌──(lucas㉿cyberhub)-[<span style="color: #e8e8e8;">~/forensics</span>]</span>
-                        </div>
-                        <div class="terminal-line">
-                            <span class="prompt">└─$</span>
-                            <span class="cursor">█</span>
+                        
+                        <div id="final-prompt">
+                            <div class="terminal-line">
+                                <span class="prompt">┌──(lucas㉿cyberhub)-[<span style="color: #e8e8e8;">~/forensics</span>]</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="prompt">└─$</span>
+                                <span class="cursor">█</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <h2 id="projetos" class="section-title">Portfólio & Sistemas</h2>
+        <div class="eco-grid">
+            <div class="glass-card">
+                <h3>MEDI <span class="award-badge">Prêmio CNMP</span></h3>
+                <p>Software desenvolvido para extração e preservação de vestígios digitais. Garante a integridade da cadeia de custódia e eficiência em investigações complexas.</p>
+                <div class="tech-tags"><span>Python</span><span>Forense Digital</span></div>
+            </div>
+
+            <div class="glass-card">
+                <h3>FlashcardsGame</h3>
+                <p>Aplicação interativa multiplataforma construída com foco em retenção de memória e aprendizado ativo. Implementa mecânicas complexas de gamificação.</p>
+                <div class="tech-tags"><span>Flutter</span><span>Dart</span><span>Gamificação</span></div>
+            </div>
+
+            <div class="glass-card">
+                <h3>Scripts & Automação</h3>
+                <p>Desenvolvimento de rotinas automatizadas para otimização de processos diários, análise de dados e triagem em ambientes de cibersegurança.</p>
+                <div class="tech-tags"><span>Python</span><span>CyberSec</span><span>Data Analysis</span></div>
+            </div>
+        </div>
     </main>
+
+    <footer>
+        <p>CyberHub &copy; <script>document.write(new Date().getFullYear())</script> - Sistemas e Desenvolvimento.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const textToType = "python3 medi_extractor.py --target /dev/sda1";
+            const typeContainer = document.getElementById('typewriter-text');
+            const typingCursor = document.getElementById('typing-cursor');
+            const loadingDots = document.getElementById('loading-dots');
+            const outputLines = document.querySelectorAll('.output-line');
+            const finalPrompt = document.getElementById('final-prompt');
+            
+            let charIndex = 0;
+
+            // Função que digita o texto letra por letra
+            function typeCommand() {
+                if (charIndex < textToType.length) {
+                    typeContainer.textContent += textToType.charAt(charIndex);
+                    charIndex++;
+                    // Velocidade da digitação (variável para parecer mais humano)
+                    setTimeout(typeCommand, Math.random() * 50 + 30); 
+                } else {
+                    // Quando terminar de digitar, esconde o cursor de cima, mostra o carregamento
+                    setTimeout(() => {
+                        typingCursor.style.display = 'none';
+                        loadingDots.style.display = 'flex';
+                        processOutput();
+                    }, 400);
+                }
+            }
+
+            // Função que mostra o resultado linha por linha
+            function processOutput() {
+                setTimeout(() => {
+                    loadingDots.style.display = 'none'; // Esconde os pontinhos
+                    
+                    outputLines.forEach((line, index) => {
+                        setTimeout(() => {
+                            line.style.opacity = '1';
+                        }, index * 300); // Mostra uma linha a cada 300ms
+                    });
+
+                    // Mostra o prompt final liberado após as linhas terminarem
+                    setTimeout(() => {
+                        finalPrompt.style.display = 'block';
+                    }, outputLines.length * 300 + 200);
+
+                }, 1500); // Tempo fingindo que está "pensando/rodando"
+            }
+
+            // Inicia a animação 1 segundo após a página carregar
+            setTimeout(typeCommand, 1000);
+        });
+    </script>
 </body>
 </html>
